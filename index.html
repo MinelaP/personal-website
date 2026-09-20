@@ -18,62 +18,93 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://minelapiljug-personal-website.vercel.app">
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Minela Piljug | Frontend Developer & AI Engineer">
-  <meta name="twitter:description" content="Portfolio and interactive showcase by Minela Piljug.">
-
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #f8fafc;
-      color: #0f172a;
+      background-color: #051F21;
+      color: #ffffff;
+    }
+
+    /* WebGL Canvas Background */
+    #shader-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      display: block;
+    }
+
+    /* Fallback static gradient for prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      #shader-canvas {
+        display: none;
+      }
+      body {
+        background: linear-gradient(135deg, #051F21 0%, #1A7A4A 50%, #54E399 100%);
+      }
+    }
+
+    /* Main Container Card Overlay */
+    .hero-container {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
       padding: 20px;
     }
+
     .card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(222, 228, 231, 0.5);
+      border-radius: 24px;
       padding: 40px;
-      max-width: 500px;
+      max-width: 520px;
       width: 100%;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+      color: #051F21;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     }
+
     .badge-tag {
       display: inline-block;
-      background-color: #f3e8ff;
-      color: #9333ea;
+      background-color: rgba(84, 227, 153, 0.2);
+      color: #1A7A4A;
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 700;
       padding: 6px 14px;
       border-radius: 9999px;
       margin-bottom: 20px;
     }
-    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
-    .subtitle { font-size: 1rem; font-weight: 600; color: #475569; margin-bottom: 16px; }
-    .bio { font-size: 0.95rem; color: #64748b; line-height: 1.6; margin-bottom: 24px; }
+
+    h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 8px; color: #051F21; }
+    .subtitle { font-size: 1.05rem; font-weight: 600; color: #1A7A4A; margin-bottom: 16px; }
+    .bio { font-size: 0.95rem; color: #334155; line-height: 1.6; margin-bottom: 24px; }
+    
     .links-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 28px; }
     .btn {
       display: block;
       padding: 12px;
       text-align: center;
-      background-color: #0f172a;
+      background-color: #051F21;
       color: #ffffff;
       text-decoration: none;
-      border-radius: 8px;
-      font-weight: 500;
+      border-radius: 10px;
+      font-weight: 600;
       font-size: 0.9rem;
-      transition: background-color 0.2s ease;
+      transition: all 0.2s ease;
     }
-    .btn:hover { background-color: #334155; }
-    .btn-outline { background-color: #ffffff; color: #0f172a; border: 1px solid #cbd5e1; }
+    .btn:hover { background-color: #1A7A4A; }
+    .btn-outline { background-color: #ffffff; color: #051F21; border: 1px solid #cbd5e1; }
     .btn-outline:hover { background-color: #f1f5f9; }
+
     footer {
       margin-top: 24px;
       display: flex;
@@ -84,40 +115,166 @@
 </head>
 <body>
 
-  <div class="card">
-    <span class="badge-tag">FlyRank AI Intern</span>
-    <h1>Minela P.</h1>
-    <p class="subtitle">Frontend Developer & AI Engineer</p>
-    
-    <p class="bio">
-      Hi! I'm Minela. I build dynamic web applications and modern AI agent interfaces. Currently completing the FlyRank AI Internship track and developing frontend workflows.
-    </p>
+  <!-- Fullscreen WebGL Canvas -->
+  <canvas id="shader-canvas"></canvas>
 
-    <!-- Complete mandatory links -->
-    <div class="links-grid">
-      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="btn">LinkedIn</a>
-      <a href="https://github.com/MinelaP" target="_blank" rel="noopener noreferrer" class="btn">GitHub</a>
-      <a href="CV.pdf" download="Minela_CV.pdf" class="btn btn-outline">Download CV</a>
-      <a href="tel:+387603030184" class="btn btn-outline">Call Me</a>
+  <div class="hero-container">
+    <div class="card">
+      <span class="badge-tag">FlyRank AI Intern</span>
+      <h1>Minela Piljug</h1>
+      <p class="subtitle">Frontend Developer & AI Engineer</p>
+      
+      <p class="bio">
+        Interactive showcase featuring custom WebGL fragment shaders, responsive layouts, and modern AI agent interfaces.
+      </p>
+
+      <!-- Links -->
+      <div class="links-grid">
+        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="btn">LinkedIn</a>
+        <a href="https://github.com/MinelaP" target="_blank" rel="noopener noreferrer" class="btn">GitHub</a>
+        <a href="CV.pdf" download="Minela_CV.pdf" class="btn btn-outline">Download CV</a>
+        <a href="tel:+387603030184" class="btn btn-outline">Call Me</a>
+      </div>
+
+      <!-- FlyRank Badge -->
+      <footer>
+        <a href="https://internship.flyrank.ai/verify?id=FR-XXXX-XXXXX&amp;first_name=Minela" target="_blank" rel="noopener noreferrer"
+           aria-label="Verify Minela Piljug's FlyRank AI Internship credential"
+           style="box-sizing:border-box;margin:0;padding:0;border:0;background:none;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;display:inline-flex;align-items:center;gap:14px;padding:12px 16px;background:#FFFFFF;border:1px solid #DDE4E7;border-radius:16px;box-shadow:0 1px 2px rgba(5,31,33,0.05);max-width:100%">
+          <svg width="32" height="32" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:block;flex:none;"><rect width="96" height="96" rx="22" fill="#051F21" /><path d="M28.2354 74.2202V67.9039C29.6419 68.4369 31.3724 68.7055 33.4311 68.7055C35.3235 68.7055 36.8153 68.2396 37.8979 67.3079C38.9805 66.3762 39.9566 64.8695 40.8218 62.792L42.6887 58.3139L29.8976 29.2879C35.0038 29.2879 39.6028 32.3307 41.5294 36.9893L47.0746 50.3985L56.0126 28.6038C57.9221 23.9452 62.5168 20.894 67.6187 20.894L50.0795 63.5936C48.4556 67.5933 46.5205 70.5102 44.2743 72.3484C42.0281 74.1867 39.1169 75.1058 35.5451 75.1058C32.6212 75.1058 30.1875 74.812 28.2354 74.2244V74.2202Z" fill="#54E399" /></svg>
+          <span style="display:flex;flex-direction:column;gap:2px;">
+            <span style="font-family:monospace;font-size:8px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(5,31,33,0.5)">FlyRank AI Internship</span>
+            <span style="font-size:13px;font-weight:600;color:#051F21">Verified credential</span>
+          </span>
+        </a>
+      </footer>
     </div>
-
-    <!-- Official FlyRank Verified Badge Banner -->
-    <footer>
-      <a href="https://internship.flyrank.ai/verify?id=FR-XXXX-XXXXX&amp;first_name=Minela" target="_blank" rel="noopener noreferrer"
-         aria-label="Verify Minela Piljug's FlyRank AI Internship credential FR-XXXX-XXXXX"
-         style="box-sizing:border-box;margin:0;padding:0;border:0;background:none;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-style:normal;line-height:1.25;text-transform:none;float:none;-webkit-font-smoothing:antialiased;display:inline-flex;align-items:center;gap:14px;padding:14px 18px;background:#FFFFFF;border:1px solid #DDE4E7;border-radius:20px;box-shadow:0 1px 2px rgba(5,31,33,0.05);max-width:100%">
-        <svg width="40" height="40" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="display:block;flex:none;opacity:1;transform:none;max-width:none"><rect width="96" height="96" rx="22" fill="#051F21" /><path d="M28.2354 74.2202V67.9039C29.6419 68.4369 31.3724 68.7055 33.4311 68.7055C35.3235 68.7055 36.8153 68.2396 37.8979 67.3079C38.9805 66.3762 39.9566 64.8695 40.8218 62.792L42.6887 58.3139L29.8976 29.2879C35.0038 29.2879 39.6028 32.3307 41.5294 36.9893L47.0746 50.3985L56.0126 28.6038C57.9221 23.9452 62.5168 20.894 67.6187 20.894L50.0795 63.5936C48.4556 67.5933 46.5205 70.5102 44.2743 72.3484C42.0281 74.1867 39.1169 75.1058 35.5451 75.1058C32.6212 75.1058 30.1875 74.812 28.2354 74.2244V74.2202Z" fill="#54E399" /></svg>
-        <span style="margin:0;padding:0;border:0;background:none;color:inherit;font-weight:400;font-style:normal;letter-spacing:normal;text-transform:none;text-decoration:none;white-space:normal;float:none;display:flex;flex-direction:column;gap:4px;min-width:0">
-          <span style="margin:0;padding:0;border:0;background:none;color:inherit;font-weight:400;font-style:normal;letter-spacing:normal;text-transform:none;text-decoration:none;white-space:normal;float:none;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(5,31,33,0.5)">FlyRank AI Internship</span>
-          <span style="margin:0;padding:0;border:0;background:none;color:inherit;font-weight:400;font-style:normal;letter-spacing:normal;text-transform:none;text-decoration:none;white-space:normal;float:none;font-size:15px;font-weight:600;color:#051F21;letter-spacing:-0.01em;white-space:nowrap">Verified credential</span>
-          <span style="margin:0;padding:0;border:0;background:none;color:inherit;font-weight:400;font-style:normal;letter-spacing:normal;text-transform:none;text-decoration:none;white-space:normal;float:none;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;color:#1A7A4A">FR-XXXX-XXXXX</span>
-        </span>
-        <span style="margin:0;padding:0;border:0;background:none;color:inherit;font-weight:400;font-style:normal;letter-spacing:normal;text-transform:none;text-decoration:none;white-space:normal;float:none;display:flex;align-items:center;gap:6px;margin-left:8px;padding:6px 12px;background:rgba(84,227,153,0.12);border:1px solid rgba(84,227,153,0.28);border-radius:9999px;font-size:12px;font-weight:600;color:#1A7A4A;flex:none">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="display:block;flex:none;opacity:1;transform:none;max-width:none"><circle cx="12" cy="12" r="10" stroke="#1A7A4A" stroke-width="1.5" /><path d="M7.9 12.3l2.8 2.8 5.4-5.8" stroke="#1A7A4A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>Verify
-        </span>
-      </a>
-    </footer>
   </div>
+
+  <!-- WebGL Shader Script -->
+  <script>
+    const canvas = document.getElementById('shader-canvas');
+    const gl = canvas.getContext('webgl');
+
+    if (!gl) {
+      console.warn('WebGL not supported');
+    } else {
+      // Vertex Shader
+      const vsSource = `
+        attribute vec2 position;
+        void main() {
+          gl_Position = vec vec4(position, 0.0, 1.0);
+        }
+      `.replace('vec vec4', 'vec4');
+
+      // Fragment Shader (Custom Interactive Aurora & Flow Field)
+      const fsSource = `
+        precision mediump float;
+        uniform vec2 u_resolution;
+        uniform float u_time;
+        uniform vec2 u_mouse;
+
+        void main() {
+          // 1. Normalized coordinates (uv)
+          vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+          vec2 mouse = u_mouse / u_resolution.xy;
+
+          // 2. Interactive offset from mouse position
+          vec2 dist = uv - mouse;
+          float mFactor = length(dist) * 0.5;
+
+          // 3. Dynamic color wave generation using time & mouse
+          float color1 = sin(uv.x * 4.0 + u_time * 0.8 + mouse.x * 2.0);
+          float color2 = cos(uv.y * 4.0 + u_time * 0.6 + mouse.y * 2.0);
+          
+          // 4. Palette mapping (FlyRank brand green & dark slate theme)
+          vec3 bgDark = vec3(0.02, 0.12, 0.13); // #051F21
+          vec3 emerald = vec3(0.10, 0.48, 0.29); // #1A7A4A
+          vec3 mint = vec3(0.33, 0.89, 0.60);    // #54E399
+
+          vec3 finalColor = mix(bgDark, emerald, color1 * 0.5 + 0.5);
+          finalColor = mix(finalColor, mint, (color2 * 0.5 + 0.5) - mFactor);
+
+          gl_FragColor = vec4(finalColor, 1.0);
+        }
+      `;
+
+      function createShader(gl, type, source) {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        return shader;
+      }
+
+      const vertShader = createShader(gl, gl.VERTEX_SHADER, vsSource);
+      const fragShader = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+      const program = gl.createProgram();
+      gl.attachShader(program, vertShader);
+      gl.attachShader(program, fragShader);
+      gl.linkProgram(program);
+      gl.useProgram(program);
+
+      // Buffer
+      const positionBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+        -1, -1,  1, -1, -1,  1,
+        -1,  1,  1, -1,  1,  1,
+      ]), gl.STATIC_DRAW);
+
+      const positionLocation = gl.getAttribLocation(program, "position");
+      gl.enableVertexAttribArray(positionLocation);
+      gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+      // Uniforms
+      const uResLoc = gl.getUniformLocation(program, "u_resolution");
+      const uTimeLoc = gl.getUniformLocation(program, "u_time");
+      const uMouseLoc = gl.getUniformLocation(program, "u_mouse");
+
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = window.innerHeight - e.clientY; // Flip Y for WebGL
+      });
+
+      function resize() {
+        // Capped devicePixelRatio to 2 for performance
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        gl.viewport(0, 0, canvas.width, canvas.height);
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      let animationFrameId;
+      function render(time) {
+        gl.uniform2f(uResLoc, canvas.width, canvas.height);
+        gl.uniform1f(uTimeLoc, time * 0.001);
+        gl.uniform2f(uMouseLoc, mouseX * (canvas.width / window.innerWidth), mouseY * (canvas.height / window.innerHeight));
+
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+        animationFrameId = requestAnimationFrame(render);
+      }
+
+      // Pause when hidden for performance
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          cancelAnimationFrame(animationFrameId);
+        } else {
+          animationFrameId = requestAnimationFrame(render);
+        }
+      });
+
+      // Respect prefers-reduced-motion
+      const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (!motionQuery.matches) {
+        animationFrameId = requestAnimationFrame(render);
+      }
+    }
+  </script>
 
 </body>
 </html>
