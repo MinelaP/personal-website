@@ -4,32 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- SEO & OpenGraph Meta Tags -->
-  <title>Minela Piljug | Frontend Developer & AI Engineer</title>
-  <meta name="description" content="Portfolio and interactive showcase by Minela Piljug. Specializing in Frontend Engineering and AI Applications.">
+  <title>Minela Piljug | Software Engineer & UI/UX Developer</title>
+  <meta name="description" content="Portfolio and case studies by Minela Piljug — Software Engineer & UI/UX Developer.">
   <meta name="author" content="Minela Piljug">
+
+  <!-- Google Font: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
 
-  <!-- Social Media Preview (OpenGraph) -->
-  <meta property="og:title" content="Minela Piljug | Frontend Developer & AI Engineer">
-  <meta property="og:description" content="Portfolio and interactive showcase by Minela Piljug.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://minelapiljug-personal-website.vercel.app">
-
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body, html {
-      width: 100%;
-      height: 100%;
-      overflow-x: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #051F21;
-      color: #ffffff;
+    :root {
+      --bg-color: #F8FAFC;
+      --text-color: #0F172A;
+      --card-bg: #1E293B;
+      --accent-color: #A855F7;
+      --accent-hover: #9333EA;
+      --text-muted: #64748B;
+      --border-color: #E2E8F0;
     }
 
-    /* WebGL Canvas Background */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body, html {
+      width: 100%;
+      min-height: 100%;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    /* WebGL Canvas Background (FE-AA3 Shader) */
     #shader-canvas {
       position: fixed;
       top: 0;
@@ -38,136 +48,356 @@
       height: 100vh;
       z-index: 1;
       display: block;
+      opacity: 0.85;
     }
 
-    /* Fallback static gradient for prefers-reduced-motion */
     @media (prefers-reduced-motion: reduce) {
-      #shader-canvas {
-        display: none;
-      }
-      body {
-        background: linear-gradient(135deg, #051F21 0%, #1A7A4A 50%, #54E399 100%);
-      }
+      #shader-canvas { display: none; }
+      body { background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #A855F7 100%); }
     }
 
-    /* Main Container Card Overlay */
-    .hero-container {
+    .main-wrapper {
       position: relative;
       z-index: 2;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
     }
 
-    .card {
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(222, 228, 231, 0.5);
+    /* Hero Card */
+    .hero-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
       border-radius: 24px;
-      padding: 40px;
-      max-width: 520px;
-      width: 100%;
-      color: #051F21;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      padding: 48px 40px;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+      margin-bottom: 40px;
     }
 
     .badge-tag {
       display: inline-block;
-      background-color: rgba(84, 227, 153, 0.2);
-      color: #1A7A4A;
+      background-color: #F3E8FF;
+      color: var(--accent-color);
       font-size: 0.85rem;
       font-weight: 700;
-      padding: 6px 14px;
+      padding: 6px 16px;
       border-radius: 9999px;
       margin-bottom: 20px;
     }
 
-    h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 8px; color: #051F21; }
-    .subtitle { font-size: 1.05rem; font-weight: 600; color: #1A7A4A; margin-bottom: 16px; }
-    .bio { font-size: 0.95rem; color: #334155; line-height: 1.6; margin-bottom: 24px; }
-    
-    .links-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 28px; }
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--text-color);
+      line-height: 1.2;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .tagline {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--accent-color);
+      margin-bottom: 20px;
+    }
+
+    .value-prop {
+      font-size: 1.1rem;
+      color: #334155;
+      max-width: 800px;
+      margin-bottom: 32px;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .stat-badge {
+      background: var(--card-bg);
+      color: #FFFFFF;
+      padding: 8px 18px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .cta-grid {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
     .btn {
-      display: block;
-      padding: 12px;
-      text-align: center;
-      background-color: #051F21;
-      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background-color: var(--accent-color);
+      color: #FFFFFF;
       text-decoration: none;
       border-radius: 10px;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       transition: all 0.2s ease;
+      border: 1px solid transparent;
+      cursor: pointer;
     }
-    .btn:hover { background-color: #1A7A4A; }
-    .btn-outline { background-color: #ffffff; color: #051F21; border: 1px solid #cbd5e1; }
-    .btn-outline:hover { background-color: #f1f5f9; }
+
+    .btn:hover {
+      background-color: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background-color: var(--card-bg);
+      color: #FFFFFF;
+    }
+
+    .btn-secondary:hover { background-color: #334155; }
+
+    .btn-outline {
+      background-color: #FFFFFF;
+      color: var(--accent-color);
+      border: 1px solid var(--accent-color);
+    }
+
+    .btn-outline:hover {
+      background-color: #F3E8FF;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin: 48px 0 24px 0;
+      color: #FFFFFF;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    /* Projects Grid */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .project-card {
+      background: #FFFFFF;
+      border-radius: 18px;
+      padding: 28px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .project-type {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .project-card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-color);
+    }
+
+    .project-card p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
 
     footer {
-      margin-top: 24px;
+      margin-top: 40px;
       display: flex;
       justify-content: center;
       width: 100%;
+    }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 2rem; }
+      .hero-card { padding: 28px 20px; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .btn { width: 100%; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Fullscreen WebGL Canvas -->
+  <!-- Fullscreen WebGL Canvas (FE-AA3) -->
   <canvas id="shader-canvas"></canvas>
 
-  <div class="hero-container">
-    <div class="card">
-      <span class="badge-tag">FlyRank AI Intern</span>
+  <div class="main-wrapper">
+    
+    <!-- Hero Section -->
+    <header class="hero-card">
+      <span class="badge-tag">Software Engineer & UI/UX Developer</span>
       <h1>Minela Piljug</h1>
-      <p class="subtitle">Frontend Developer & AI Engineer</p>
+      <p class="tagline">Bridging the gap between UI/UX design & frontend engineering</p>
       
-      <p class="bio">
-        Interactive showcase featuring custom WebGL fragment shaders, responsive layouts, and modern AI agent interfaces.
+      <p class="value-prop">
+        I create clean, intuitive, and user-centered digital products. Specializing in frontend workflows, responsive design systems, and modern AI application interfaces.
       </p>
 
-      <!-- Links -->
-      <div class="links-grid">
-        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="btn">LinkedIn</a>
-        <a href="https://github.com/MinelaP" target="_blank" rel="noopener noreferrer" class="btn">GitHub</a>
-        <a href="CV.pdf" download="Minela_CV.pdf" class="btn btn-outline">Download CV</a>
-        <a href="tel:+387603030184" class="btn btn-outline">Call Me</a>
+      <div class="stats-row">
+        <span class="stat-badge">⚡ Software Engineer</span>
+        <span class="stat-badge">🎨 UI/UX Designer</span>
+        <span class="stat-badge">🚀 10+ Projects Completed</span>
       </div>
 
-      <!-- FlyRank Badge -->
+      <div class="cta-grid">
+        <a href="#contact" class="btn">Get in Touch</a>
+        <a href="#projects" class="btn btn-secondary">View Projects</a>
+        <a href="CV.pdf" download="Minela_CV.pdf" class="btn btn-outline" style="color: var(--text-color); border-color: var(--border-color);">Download CV</a>
+        <a href="https://github.com/MinelaP" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="color: var(--text-color); border-color: var(--border-color);">GitHub</a>
+      </div>
+
+      <!-- FlyRank Graduate Badge -->
       <footer>
         <a href="https://internship.flyrank.ai/verify?id=FR-XXXX-XXXXX&amp;first_name=Minela" target="_blank" rel="noopener noreferrer"
-           aria-label="Verify Minela Piljug's FlyRank AI Internship credential"
-           style="box-sizing:border-box;margin:0;padding:0;border:0;background:none;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;display:inline-flex;align-items:center;gap:14px;padding:12px 16px;background:#FFFFFF;border:1px solid #DDE4E7;border-radius:16px;box-shadow:0 1px 2px rgba(5,31,33,0.05);max-width:100%">
-          <svg width="32" height="32" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:block;flex:none;"><rect width="96" height="96" rx="22" fill="#051F21" /><path d="M28.2354 74.2202V67.9039C29.6419 68.4369 31.3724 68.7055 33.4311 68.7055C35.3235 68.7055 36.8153 68.2396 37.8979 67.3079C38.9805 66.3762 39.9566 64.8695 40.8218 62.792L42.6887 58.3139L29.8976 29.2879C35.0038 29.2879 39.6028 32.3307 41.5294 36.9893L47.0746 50.3985L56.0126 28.6038C57.9221 23.9452 62.5168 20.894 67.6187 20.894L50.0795 63.5936C48.4556 67.5933 46.5205 70.5102 44.2743 72.3484C42.0281 74.1867 39.1169 75.1058 35.5451 75.1058C32.6212 75.1058 30.1875 74.812 28.2354 74.2244V74.2202Z" fill="#54E399" /></svg>
+           aria-label="Verify Minela's FlyRank AI Internship credential"
+           style="box-sizing:border-box;margin:0;padding:0;border:0;background:none;text-decoration:none;display:inline-flex;align-items:center;gap:14px;padding:12px 18px;background:#FFFFFF;border:1px solid #E2E8F0;border-radius:16px;box-shadow:0 1px 3px rgba(0,0,0,0.05);max-width:100%">
+          <svg width="32" height="32" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:block;flex:none;"><rect width="96" height="96" rx="22" fill="#0F172A" /><path d="M28.2354 74.2202V67.9039C29.6419 68.4369 31.3724 68.7055 33.4311 68.7055C35.3235 68.7055 36.8153 68.2396 37.8979 67.3079C38.9805 66.3762 39.9566 64.8695 40.8218 62.792L42.6887 58.3139L29.8976 29.2879C35.0038 29.2879 39.6028 32.3307 41.5294 36.9893L47.0746 50.3985L56.0126 28.6038C57.9221 23.9452 62.5168 20.894 67.6187 20.894L50.0795 63.5936C48.4556 67.5933 46.5205 70.5102 44.2743 72.3484C42.0281 74.1867 39.1169 75.1058 35.5451 75.1058C32.6212 75.1058 30.1875 74.812 28.2354 74.2244V74.2202Z" fill="#A855F7" /></svg>
           <span style="display:flex;flex-direction:column;gap:2px;">
-            <span style="font-family:monospace;font-size:8px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(5,31,33,0.5)">FlyRank AI Internship</span>
-            <span style="font-size:13px;font-weight:600;color:#051F21">Verified credential</span>
+            <span style="font-family:monospace;font-size:8px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#64748B">FlyRank AI Internship</span>
+            <span style="font-size:13px;font-weight:600;color:#0F172A">Verified Credential</span>
           </span>
         </a>
       </footer>
+    </header>
+
+    <!-- Case Studies Section -->
+    <h2 id="projects" class="section-title">Projects & Case Studies</h2>
+    <div class="grid-3">
+
+      <!-- 1. CIS System Redesign -->
+      <div class="project-card">
+        <div>
+          <span class="project-type">UI-UX DESIGN</span>
+          <h3>CIS System Redesign</h3>
+          <p>Modernizing a complex system with a focus on data clarity and responsive web/mobile layouts.</p>
+        </div>
+        <button class="btn btn-outline">See details →</button>
+      </div>
+
+      <!-- 2. HN Logistic Desktop App -->
+      <div class="project-card">
+        <div>
+          <span class="project-type">UI-UX DESIGN</span>
+          <h3>HN Logistic Desktop App</h3>
+          <p>Full-cycle design for a logistics desktop application, from client requirements to interactive prototype.</p>
+        </div>
+        <button class="btn btn-outline">See details →</button>
+      </div>
+
+      <!-- 3. HN Logistic Desktop Application (Java) -->
+      <div class="project-card">
+        <div>
+          <span class="project-type">Java Development (IntelliJ)</span>
+          <h3>HN Logistic Desktop Application</h3>
+          <p>Robust desktop application developed in Java (IntelliJ IDEA). Focused on complex backend logic and management tools.</p>
+        </div>
+        <button class="btn btn-outline">See details →</button>
+      </div>
+
+      <!-- 4. HN Logistic Web Solution -->
+      <div class="project-card">
+        <div>
+          <span class="project-type">Web Development</span>
+          <h3>HN Logistic Web Solution</h3>
+          <p>A responsive web solution for logistics management, focusing on clean UI and efficient data handling.</p>
+        </div>
+        <button class="btn btn-outline">See details →</button>
+      </div>
+
+      <!-- 5. Cinema Mobile UI/UX -->
+      <div class="project-card">
+        <div>
+          <span class="project-type">UI-UX DESIGN</span>
+          <h3>Cinema</h3>
+          <p>Web and mobile concepts for cinema booking, focusing on intuitive user flows and seat selection.</p>
+        </div>
+        <button class="btn btn-outline">See details →</button>
+      </div>
+
+      <!-- 6. Film Search App (film-tracker) -->
+      <div class="project-card">
+        <div>
+          <span class="project-type">Frontend Application</span>
+          <h3>Film Search Application</h3>
+          <p>Real-time movie search application built with JavaScript and Movie API integration featuring dynamic grid layouts.</p>
+        </div>
+        <a href="https://github.com/MinelaP/film-tracker" target="_blank" rel="noopener noreferrer" class="btn btn-outline">GitHub Repo ↗</a>
+      </div>
+
+      <!-- 7. Hifa Petrol Ecosystem -->
+      <div class="project-card">
+        <div>
+          <span class="project-type">UI-UX DESIGN</span>
+          <h3>Hifa Petrol Ecosystem</h3>
+          <p>Designing a customer loyalty mobile app and a robust admin panel for user management.</p>
+        </div>
+        <button class="btn btn-outline">See details →</button>
+      </div>
+
+      <!-- 8. FE-06 Streaming AI Chat -->
+      <div class="project-card" style="border: 1px solid var(--accent-color);">
+        <div>
+          <span class="project-type" style="color: var(--accent-color);">AI Engineering & Frontend</span>
+          <h3>FE-06 Streaming AI Chat</h3>
+          <p>Real-time token-by-token streaming chat interface powered by Llama 3.3. Features stop controls and auto-scroll.</p>
+        </div>
+        <a href="https://streaming-ai-chat-minelap.vercel.app" target="_blank" rel="noopener noreferrer" class="btn">Live Preview ↗</a>
+      </div>
+
     </div>
+
+    <!-- Contact Section -->
+    <div id="contact" class="hero-card" style="margin-top: 40px;">
+      <span class="badge-tag">Let's Work Together</span>
+      <h2 style="font-size: 2rem; margin-bottom: 12px; color: var(--text-color);">Get In Touch</h2>
+      <p style="color: var(--text-muted); margin-bottom: 24px;">Have a project in mind or want to collaborate? Send me a message!</p>
+      
+      <form onsubmit="event.preventDefault(); alert('Message sent successfully!');" style="display: flex; flex-direction: column; gap: 16px; max-width: 600px;">
+        <input type="text" placeholder="Your Name" required style="padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); font-family: inherit;">
+        <input type="email" placeholder="Your Email" required style="padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); font-family: inherit;">
+        <textarea rows="4" placeholder="Your Message" required style="padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); font-family: inherit; resize: vertical;"></textarea>
+        <button type="submit" class="btn" style="align-self: flex-start;">Send Message</button>
+      </form>
+    </div>
+
   </div>
 
-  <!-- WebGL Shader Script -->
+  <!-- WebGL Shader Script (FE-AA3) -->
   <script>
     const canvas = document.getElementById('shader-canvas');
     const gl = canvas.getContext('webgl');
 
-    if (!gl) {
-      console.warn('WebGL not supported');
-    } else {
-      // Vertex Shader
+    if (gl) {
       const vsSource = `
         attribute vec2 position;
-        void main() {
-          gl_Position = vec vec4(position, 0.0, 1.0);
-        }
-      `.replace('vec vec4', 'vec4');
+        void main() { gl_Position = vec4(position, 0.0, 1.0); }
+      `;
 
-      // Fragment Shader (Custom Interactive Aurora & Flow Field)
       const fsSource = `
         precision mediump float;
         uniform vec2 u_resolution;
@@ -175,27 +405,20 @@
         uniform vec2 u_mouse;
 
         void main() {
-          // 1. Normalized coordinates (uv)
           vec2 uv = gl_FragCoord.xy / u_resolution.xy;
           vec2 mouse = u_mouse / u_resolution.xy;
 
-          // 2. Interactive offset from mouse position
-          vec2 dist = uv - mouse;
-          float mFactor = length(dist) * 0.5;
+          float wave1 = sin(uv.x * 3.0 + u_time * 0.5 + mouse.x * 1.5);
+          float wave2 = cos(uv.y * 3.0 + u_time * 0.4 + mouse.y * 1.5);
 
-          // 3. Dynamic color wave generation using time & mouse
-          float color1 = sin(uv.x * 4.0 + u_time * 0.8 + mouse.x * 2.0);
-          float color2 = cos(uv.y * 4.0 + u_time * 0.6 + mouse.y * 2.0);
-          
-          // 4. Palette mapping (FlyRank brand green & dark slate theme)
-          vec3 bgDark = vec3(0.02, 0.12, 0.13); // #051F21
-          vec3 emerald = vec3(0.10, 0.48, 0.29); // #1A7A4A
-          vec3 mint = vec3(0.33, 0.89, 0.60);    // #54E399
+          vec3 bgDark = vec3(0.06, 0.09, 0.16);
+          vec3 cardDark = vec3(0.12, 0.16, 0.23);
+          vec3 purple = vec3(0.66, 0.33, 0.97);
 
-          vec3 finalColor = mix(bgDark, emerald, color1 * 0.5 + 0.5);
-          finalColor = mix(finalColor, mint, (color2 * 0.5 + 0.5) - mFactor);
+          vec3 color = mix(bgDark, cardDark, wave1 * 0.5 + 0.5);
+          color = mix(color, purple, (wave2 * 0.3 + 0.3) * 0.4);
 
-          gl_FragColor = vec4(finalColor, 1.0);
+          gl_FragColor = vec4(color, 1.0);
         }
       `;
 
@@ -214,19 +437,17 @@
       gl.linkProgram(program);
       gl.useProgram(program);
 
-      // Buffer
-      const positionBuffer = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+      const buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
         -1, -1,  1, -1, -1,  1,
         -1,  1,  1, -1,  1,  1,
       ]), gl.STATIC_DRAW);
 
-      const positionLocation = gl.getAttribLocation(program, "position");
-      gl.enableVertexAttribArray(positionLocation);
-      gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+      const posLoc = gl.getAttribLocation(program, "position");
+      gl.enableVertexAttribArray(posLoc);
+      gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
 
-      // Uniforms
       const uResLoc = gl.getUniformLocation(program, "u_resolution");
       const uTimeLoc = gl.getUniformLocation(program, "u_time");
       const uMouseLoc = gl.getUniformLocation(program, "u_mouse");
@@ -236,11 +457,10 @@
 
       window.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
-        mouseY = window.innerHeight - e.clientY; // Flip Y for WebGL
+        mouseY = window.innerHeight - e.clientY;
       });
 
       function resize() {
-        // Capped devicePixelRatio to 2 for performance
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
         canvas.width = window.innerWidth * dpr;
         canvas.height = window.innerHeight * dpr;
@@ -249,32 +469,24 @@
       window.addEventListener('resize', resize);
       resize();
 
-      let animationFrameId;
+      let animId;
       function render(time) {
         gl.uniform2f(uResLoc, canvas.width, canvas.height);
         gl.uniform1f(uTimeLoc, time * 0.001);
-        gl.uniform2f(uMouseLoc, mouseX * (canvas.width / window.innerWidth), mouseY * (canvas.height / window.innerHeight));
-
+        gl.uniform2f(uMouseLoc, mouseX, mouseY);
         gl.drawArrays(gl.TRIANGLES, 0, 6);
-        animationFrameId = requestAnimationFrame(render);
+        animId = requestAnimationFrame(render);
       }
 
-      // Pause when hidden for performance
       document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-          cancelAnimationFrame(animationFrameId);
-        } else {
-          animationFrameId = requestAnimationFrame(render);
-        }
+        if (document.hidden) cancelAnimationFrame(animId);
+        else animId = requestAnimationFrame(render);
       });
 
-      // Respect prefers-reduced-motion
-      const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-      if (!motionQuery.matches) {
-        animationFrameId = requestAnimationFrame(render);
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        animId = requestAnimationFrame(render);
       }
     }
   </script>
-
 </body>
 </html>
